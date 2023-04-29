@@ -1581,18 +1581,18 @@ contract GasSetterRole {
 */
 contract Caldera is ERC1155BondingToken, MinterRole, AdminRole, GasSetterRole {
     
-    uint256 nonce;
+    uint256 numTokens;
     
     uint256 initialSupply = 1000000000000000000000000000;
     
     function createNewToken(uint32 _reserveRatio, uint256 _initialSupply, uint256 _initialPoolBalance)public returns (uint256 id){
         require(_reserveRatio > 0 && _initialSupply > 0 && _initialPoolBalance > 0, "Initial values must not be zero");
-        nonce = nonce.add(1);
+        numTokens = numTokens.add(1);
         _safeTransferFrom(msg.sender, address(this), 0, _initialPoolBalance);
-        poolBalances[nonce] = _initialPoolBalance;
-        _totalSupplies[nonce] = _initialSupply;
-        reserveRatios[nonce] = _reserveRatio;
-        return nonce;
+        poolBalances[numTokens] = _initialPoolBalance;
+        _totalSupplies[numTokens] = _initialSupply;
+        reserveRatios[numTokens] = _reserveRatio;
+        return numTokens;
     }
     
     function mintCaldera(uint256 _amount, address _to) public onlyMinter {
